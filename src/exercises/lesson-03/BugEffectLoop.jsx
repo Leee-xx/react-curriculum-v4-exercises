@@ -15,10 +15,14 @@ export default function BugEffectLoop() {
 
   useEffect(() => {
     setCount(count + 1);
-  });
+  }, []);
 
   return <p>Bug 1 Count: {count}</p>;
 }
 
 // Explanation:
-// (Write your explanation here)
+/* Without any second argument, useEffect will trigger on every commit, i.e.
+ * constantly, which is why the counter was going up forever. Adding the empty
+ * [] tells React that we only want this effect to run when the component
+ * mounts.
+ */
