@@ -1,3 +1,11 @@
-export default function Child() {
-  return <button onClick={() => {}}>Increment Counter</button>;
+export default function Child({ handleClick }) {
+  return (
+    <button
+      onClick={() => {
+        handleClick();
+      }}
+    >
+      Increment Counter
+    </button>
+  );
 }
