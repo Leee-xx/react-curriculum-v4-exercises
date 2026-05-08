@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import FilterButtons from './components/FilterButtons.jsx';
+import Task from './components/Task.jsx';
 
 export default function StudentWork() {
   const [tasks, setTasks] = useState([]);
@@ -38,19 +40,12 @@ export default function StudentWork() {
       <h2>Welcome, Student</h2>
 
       {/* #4: Repeated button JSX */}
-      <div>
-        <button onClick={() => setFilter('all')}>All</button>
-        <button onClick={() => setFilter('completed')}>Completed</button>
-        <button onClick={() => setFilter('pending')}>Pending</button>
-        <p>Current filter: {filter}</p>
-      </div>
+      <FilterButtons filter={filter} />
 
       {/* #5: Inline list rendering */}
       <ul>
         {visibleTasks.map((task) => (
-          <li key={task.id}>
-            {task.title} {task.completed ? '✅' : '⏳'}
-          </li>
+          <Task key={task.id} title={task.title} completed={task.completed} />
         ))}
       </ul>
     </div>
