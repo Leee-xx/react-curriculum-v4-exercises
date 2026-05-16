@@ -33,10 +33,15 @@ export default function FetchOnRender() {
   }, []);
 
   if (errMsg !== '') {
-    console.log(`WHOOPS: ${errMsg}`);
-    return <p>{errMsg}</p>;
+    console.log(`errMsg set: ${errMsg}`);
+    return (
+      <div className="root">
+        <p>{errMsg}</p>
+      </div>
+    );
   }
 
+  console.log('non error render');
   return (
     <div className="root">
       <h1 className="heading">Fetch list of posts on render</h1>
