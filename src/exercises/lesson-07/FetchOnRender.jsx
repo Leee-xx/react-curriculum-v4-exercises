@@ -2,31 +2,28 @@ import { useEffect, useState } from 'react';
 
 import { getPosts } from './api.js';
 import './Lesson07Styles.css';
-
-function Post({ title, body }) {
-  return (
-    <>
-      <h2>{title}</h2>
-      <p>{body}</p>
-    </>
-  );
-}
+import Post from './Post.jsx';
 
 export default function FetchOnRender() {
   const [posts, setPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errMsg, setErrMsg] = useState('');
 
   useEffect(() => {
     let isUnmounted = false;
 
     (async () => {
       try {
-        const data = await getPosts();
+        setIsLoading(true);
+        const data = await getPosts(5);
         if (!isUnmounted) {
-          console.log(data);
           setPosts(data);
         }
       } catch (error) {
-        console.error(error);
+        console.error(`error: ${error}`);
+        setErrMsg(error);
+      } finally {
+        setIsLoading(false);
       }
     })();
 
@@ -34,13 +31,23 @@ export default function FetchOnRender() {
       isUnmounted = true;
     };
   }, []);
+
+  if (errMsg !== '') {
+    console.log(`WHOOPS: ${errMsg}`);
+    return <p>{errMsg}</p>;
+  }
+
   return (
     <div className="root">
       <h1 className="heading">Fetch list of posts on render</h1>
       <div className="content">
-        {posts.map((post) => {
-          return <Post key={post.id} title={post.title} body={post.body} />;
-        })}
+        {isLoading && errMsg === '' ? (
+          <p>Loading...</p>
+        ) : (
+          posts?.map((post) => {
+            return <Post key={post.id} title={post.title} body={post.body} />;
+          })
+        )}
       </div>
     </div>
   );

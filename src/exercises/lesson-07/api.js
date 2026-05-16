@@ -22,26 +22,20 @@ const POSTS_ENDPOINT = 'https://jsonplaceholder.typicode.com/posts/';
  * - title
  * - body
  */
-export async function getPosts() {
+export async function getPosts(limit) {
   console.log('[getPosts]: fetching list of posts');
 
-  // TODO: use this `url` const to fetch the list of posts
-  // and return some JSON data.
-  // You may delete this comment once you've finished the implementation.
-  // eslint-disable-next-line no-unused-vars
-  const url = POSTS_ENDPOINT;
-  try {
-    const resp = await fetch(url);
-    if (!resp.ok) {
-      throw new Error(resp.status);
-    }
-    const data = await resp.json();
-    return data.slice(0, 10);
-  } catch (error) {
-    console.error(error);
-  } finally {
-    console.log('get posts done');
+  let url = POSTS_ENDPOINT;
+  if (limit) {
+    url += `?_limit=${limit}`;
   }
+  const resp = await fetch(url);
+  throw new Error('fake error');
+  if (!resp.ok) {
+    throw new Error(resp.status);
+  }
+  const data = await resp.json();
+  return data;
 }
 
 /**
@@ -51,7 +45,7 @@ export async function getPosts() {
  * - title
  * - body
  */
-export function getSinglePost(postId) {
+export async function getSinglePost(postId) {
   if (!postId) {
     throw new Error('[getSinglePost]: postId parameter is required!');
   }
@@ -61,6 +55,19 @@ export function getSinglePost(postId) {
   // TODO: use this `url` const to fetch the single post
   // and return some JSON data.
   // You may delete this comment once you've finished the implementation.
-  // eslint-disable-next-line no-unused-vars
+
   const url = `${POSTS_ENDPOINT}${postId}`;
+  try {
+    const resp = await fetch(url);
+
+    if (!resp.ok) {
+      throw new Error(resp.status);
+    }
+
+    const data = await resp.json();
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
 }
