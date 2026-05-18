@@ -21,7 +21,7 @@ export default function FetchOnRender() {
         }
       } catch (error) {
         console.error(`error: ${error}`);
-        setErrMsg(error);
+        setErrMsg(error.message);
       } finally {
         setIsLoading(false);
       }
@@ -33,15 +33,13 @@ export default function FetchOnRender() {
   }, []);
 
   if (errMsg !== '') {
-    console.log(`errMsg set: ${errMsg}`);
     return (
       <div className="root">
-        <p>{errMsg}</p>
+        <p className="error">{errMsg}</p>
       </div>
     );
   }
 
-  console.log('non error render');
   return (
     <div className="root">
       <h1 className="heading">Fetch list of posts on render</h1>

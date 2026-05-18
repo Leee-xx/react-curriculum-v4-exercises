@@ -6,12 +6,27 @@ import Post from './Post.jsx';
 export default function FetchOnClick() {
   const [post, setPost] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [errMsg, setErrMsg] = useState('');
 
   async function handleClick() {
     setIsLoading(true);
-    const data = await getSinglePost(1);
-    setPost(data);
-    setIsLoading(false);
+    try {
+      const data = await getSinglePost(1);
+      setPost(data);
+    } catch (error) {
+      console.error(`error: ${error}`);
+      setErrMsg(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  if (errMsg !== '') {
+    return (
+      <div className="root">
+        <p className="error">{errMsg}</p>
+      </div>
+    );
   }
 
   return (

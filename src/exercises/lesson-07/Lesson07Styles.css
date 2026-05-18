@@ -41,6 +41,10 @@
     line-height: 1;
     padding: 4px;
   }
+
+  .error {
+    color: red;
+  }
 }
 
 .root + .root {

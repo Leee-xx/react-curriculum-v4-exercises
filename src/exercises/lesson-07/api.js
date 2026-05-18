@@ -30,7 +30,6 @@ export async function getPosts(limit) {
     url += `?_limit=${limit}`;
   }
   const resp = await fetch(url);
-  throw new Error('fake error');
   if (!resp.ok) {
     throw new Error(resp.status);
   }
