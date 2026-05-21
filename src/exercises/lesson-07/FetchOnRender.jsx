@@ -1,11 +1,56 @@
+import { useEffect, useState } from 'react';
+
+import { getPosts } from './api.js';
 import './Lesson07Styles.css';
+import Post from './Post.jsx';
 
 export default function FetchOnRender() {
+  const [posts, setPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errMsg, setErrMsg] = useState('');
+
+  useEffect(() => {
+    let isUnmounted = false;
+
+    (async () => {
+      try {
+        setIsLoading(true);
+        const data = await getPosts(5);
+        if (!isUnmounted) {
+          setPosts(data);
+        }
+      } catch (error) {
+        console.error(`error: ${error}`);
+        setErrMsg(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    })();
+
+    return () => {
+      isUnmounted = true;
+    };
+  }, []);
+
+  if (errMsg !== '') {
+    return (
+      <div className="root">
+        <p className="error">{errMsg}</p>
+      </div>
+    );
+  }
+
   return (
     <div className="root">
       <h1 className="heading">Fetch list of posts on render</h1>
       <div className="content">
-        TODO: Replace me with fetched data when the component renders
+        {isLoading && errMsg === '' ? (
+          <p>Loading...</p>
+        ) : (
+          posts?.map((post) => {
+            return <Post key={post.id} title={post.title} body={post.body} />;
+          })
+        )}
       </div>
     </div>
   );
