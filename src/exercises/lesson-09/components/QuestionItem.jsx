@@ -19,8 +19,11 @@ export function QuestionItem({ question }) {
 
   // TODO: Students will add edit functionality here
   const handleEdit = () => {
-    console.log('TODO: Implement edit functionality');
-    // Hint: Use SET_EDITING_QUESTION action
+    console.log('handleEdit()', question);
+    dispatch({
+      type: 'SET_EDITING_QUESTION',
+      payload: { question, questionId: question.id },
+    });
   };
 
   // TODO: Students will add save functionality here

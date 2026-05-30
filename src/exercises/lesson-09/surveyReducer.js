@@ -64,6 +64,7 @@ export function surveyReducer(state, action) {
       };
 
     case 'SET_EDITING_QUESTION':
+      console.log('SET_EDITING_QUESTION');
       return {
         ...state,
         ui: {
@@ -140,6 +141,36 @@ export function surveyReducer(state, action) {
     case 'UPDATE_OPTION_TEXT':
       return {
         ...state,
+        questions: state.questions.map((q) =>
+          q.id === action.payload.questionId
+            ? {
+                ...q,
+                options: q.options.map((o, i) =>
+                  i === action.payload.optionIndex ? action.payload.newText : o
+                ),
+              }
+            : q
+        ),
+      };
+
+    case 'DELETE_OPTION_FROM_QUESTION':
+      return {
+        ...state,
+        questions: state.questions.map((q) => {
+          if (
+            action.payload.type === QUESTION_TYPES.MULTIPLE_CHOICE &&
+            q.options.length > 2
+          ) {
+            return {
+              ...q,
+              options: q.options.filter(
+                (o, i) => i !== action.payload.optionIndex
+              ),
+            };
+          } else {
+            return q;
+          }
+        }),
       };
 
     default:
