@@ -64,7 +64,6 @@ export function surveyReducer(state, action) {
       };
 
     case 'SET_EDITING_QUESTION':
-      console.log('SET_EDITING_QUESTION');
       return {
         ...state,
         ui: {
@@ -96,8 +95,6 @@ export function surveyReducer(state, action) {
     // ===== STUDENT IMPLEMENTATION TASKS =====
 
     case 'UPDATE_QUESTION_TEXT':
-      // TODO: Implement this action
-      console.log('TODO: Implement UPDATE_QUESTION_TEXT action');
       return {
         ...state,
         questions: state.questions.map((q) =>
@@ -105,11 +102,13 @@ export function surveyReducer(state, action) {
             ? { ...q, question: action.payload.newText }
             : q
         ),
+        ui: {
+          ...state.ui,
+          editingQuestionId: null,
+        },
       };
 
     case 'DELETE_QUESTION':
-      // TODO: Implement this action
-      console.log('TODO: Implement DELETE_QUESTION action');
       return {
         ...state,
         questions: state.questions.filter(
@@ -117,19 +116,16 @@ export function surveyReducer(state, action) {
         ),
         ui: {
           ...state.ui,
-          editingQuestionId:
-            action.payload.questionId === state.ui.editingQuestionId
-              ? null
-              : state.ui.editingQuestionId,
+          editingQuestionId: null,
         },
       };
 
     case 'ADD_OPTION_TO_QUESTION':
       return {
         ...state,
-        questions: state.questios.map((q) =>
+        questions: state.questions.map((q) =>
           q.id === action.payload.questionId &&
-          action.payload.type === QUESTION_TYPES.MULTIPLE_CHOICE
+          q.type === QUESTION_TYPES.MULTIPLE_CHOICE
             ? {
                 ...q,
                 options: [...q.options, action.payload.optionText],
