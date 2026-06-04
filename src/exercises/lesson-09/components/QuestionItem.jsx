@@ -73,13 +73,15 @@ export function QuestionItem({ question }) {
   };
 
   const handleDeleteOption = (optionIndex) => {
-    dispatch({
-      type: 'DELETE_OPTION_FROM_QUESTION',
-      payload: {
-        questionId: question.id,
-        optionIndex,
-      },
-    });
+    if (window.confirm('Are you sure you want to delete this option?')) {
+      dispatch({
+        type: 'DELETE_OPTION_FROM_QUESTION',
+        payload: {
+          questionId: question.id,
+          optionIndex,
+        },
+      });
+    }
   };
 
   return (
