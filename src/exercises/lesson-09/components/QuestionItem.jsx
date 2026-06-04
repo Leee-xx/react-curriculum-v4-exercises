@@ -51,14 +51,18 @@ export function QuestionItem({ question }) {
     });
   };
 
-  const handleAddOption = (optionText = '') => {
-    dispatch({
-      type: 'ADD_OPTION_TO_QUESTION',
-      payload: {
-        questionId: question.id,
-        optionText,
-      },
-    });
+  const handleAddOption = () => {
+    const optionText = window.prompt('Add a new option');
+
+    if (optionText) {
+      dispatch({
+        type: 'ADD_OPTION_TO_QUESTION',
+        payload: {
+          questionId: question.id,
+          optionText,
+        },
+      });
+    }
   };
 
   const handleUpdateOption = ({ optionIndex, newText }) => {
@@ -146,6 +150,7 @@ export function QuestionItem({ question }) {
                     <button
                       className={styles['option-delete-btn']}
                       onClick={() => handleDeleteOption(index)}
+                      disabled={question.options.length < 3}
                     >
                       Delete
                     </button>
