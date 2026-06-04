@@ -154,7 +154,8 @@ export function surveyReducer(state, action) {
         ...state,
         questions: state.questions.map((q) => {
           if (
-            action.payload.type === QUESTION_TYPES.MULTIPLE_CHOICE &&
+            q.id == action.payload.questionId &&
+            q.type === QUESTION_TYPES.MULTIPLE_CHOICE &&
             q.options.length > 2
           ) {
             return {

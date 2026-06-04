@@ -8,8 +8,7 @@ export function QuestionItem({ question }) {
   //HINT: use these with controlled form
   const [workingText, setWorkingText] = useState(question.question);
   const { state, dispatch } = useContext(SurveyContext);
-  const [isAddingOption, setIsAddingOption] = useState(false);
-  const [workingQuestion, setWorkingQuestion] = useState(question);
+  const [workingOption, setWorkingOption] = useState('');
 
   const isEditing = () => state.ui.editingQuestionId === question.id;
 
@@ -52,20 +51,35 @@ export function QuestionItem({ question }) {
     });
   };
 
-  const handleAddOption = () => {
-    setWorkingQuestion({
-      ...workingQuestion,
-      options: [...workingQuestion.options, ''],
-    });
-    /*
+  const handleAddOption = (optionText = '') => {
     dispatch({
       type: 'ADD_OPTION_TO_QUESTION',
       payload: {
         questionId: question.id,
-        optionText: 'hello'
-      }
-    })
-    */
+        optionText,
+      },
+    });
+  };
+
+  const handleUpdateOption = ({ optionIndex, newText }) => {
+    dispatch({
+      type: 'UPDATE_OPTION_TEXT',
+      payload: {
+        questionId: question.id,
+        optionIndex,
+        newText,
+      },
+    });
+  };
+
+  const handleDeleteOption = (optionIndex) => {
+    dispatch({
+      type: 'DELETE_OPTION_FROM_QUESTION',
+      payload: {
+        questionId: question.id,
+        optionIndex,
+      },
+    });
   };
 
   return (
@@ -112,13 +126,25 @@ export function QuestionItem({ question }) {
         <div className={styles['options-section']}>
           <h4>Answer Options:</h4>
           <ul>
-            {workingQuestion.options.map((option, index) => (
+            {question.options.map((option, index) => (
               <li key={index} className={styles['option-item']}>
                 {isEditing() ? (
                   <>
-                    <input type="text" value={option} />
-                    <button className={styles['option-edit-btn']}>Edit</button>
-                    <button className={styles['option-delete-btn']}>
+                    <input
+                      type="text"
+                      placeholder="Enter a new option"
+                      value={option}
+                      onChange={(e) =>
+                        handleUpdateOption({
+                          optionIndex: index,
+                          newText: e.target.value,
+                        })
+                      }
+                    />
+                    <button
+                      className={styles['option-delete-btn']}
+                      onClick={() => handleDeleteOption(index)}
+                    >
                       Delete
                     </button>
                   </>
@@ -127,12 +153,11 @@ export function QuestionItem({ question }) {
                 )}
               </li>
             ))}
-            {isAddingOption}
           </ul>
           {isEditing() && (
             <button
               className={styles['add-option-btn']}
-              onClick={handleAddOption}
+              onClick={() => handleAddOption()}
             >
               + Add new option
             </button>
