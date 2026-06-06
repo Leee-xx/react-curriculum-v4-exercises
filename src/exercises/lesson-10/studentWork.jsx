@@ -4,7 +4,7 @@ import { Routes, Route } from 'react-router';
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
 
-import { productsData } from './data/products.js';
+import { products as productsData } from './data/products.js';
 
 // pages
 import Home from './pages/Home.jsx';

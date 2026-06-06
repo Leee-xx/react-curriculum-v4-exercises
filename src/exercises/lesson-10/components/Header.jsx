@@ -13,7 +13,9 @@ export default function Header({ user }) {
   return (
     <header style={{ padding: 12, borderBottom: '1px solid #ddd' }}>
       <h1 style={{ margin: 0 }}>Lesson 10 Routing Demo</h1>
-
+      <NavLink to="/">Home</NavLink> |{' '}
+      <NavLink to="/lessons/lesson-10/checkout">Checkout</NavLink> |{' '}
+      <NavLink to="/account">Account</NavLink>
       <nav style={{ display: 'flex', gap: 12, marginTop: 8 }}>
         <a
           href="https://developer.mozilla.org/en-US/docs/Web/API/History_API"
@@ -23,7 +25,6 @@ export default function Header({ user }) {
           History API (MDN)
         </a>
       </nav>
-
       <div style={{ marginTop: 8 }}>
         {user.isLoggedIn ? (
           <span>
