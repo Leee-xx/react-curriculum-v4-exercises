@@ -4,6 +4,9 @@ import { Routes, Route } from 'react-router';
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
 
+import { productsData } from './data/products.js';
+
+// pages
 import Home from './pages/Home.jsx';
 import Checkout from './pages/Checkout.jsx';
 import ProductDetails from './pages/ProductDetails.jsx';
@@ -15,6 +18,7 @@ export default function StudentWork() {
     isLoggedIn: true,
     firstName: 'Avery',
   });
+  const [products, setProducts] = useState(productsData);
 
   function toggleLogin() {
     setUser((u) => ({ ...u, isLoggedIn: !u.isLoggedIn }));
@@ -48,10 +52,10 @@ export default function StudentWork() {
 
       <main style={{ padding: 12 }}>
         <Routes>
-          <Route path="/" element={Home} />
+          <Route path="/" element={Home} products={products} />
           <Route path="/checkout" element={Checkout} />
           <Route path="/products/:id" element={ProductDetails} />
-          <Route path="/account" element={Account} />
+          {user.isLoggedIn && <Route path="/account" element={Account} />}
           <Route path="*" element={NotFound} />
         </Routes>
       </main>
