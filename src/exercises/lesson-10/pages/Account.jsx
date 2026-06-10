@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 export default function Account({ user }) {
   return (
@@ -8,6 +8,7 @@ export default function Account({ user }) {
         If you can see this page, you are logged in as{' '}
         <strong>{user.firstName}</strong>.
       </p>
+      <NavLink to="/lessons/lesson-10">Go Home</NavLink>
     </section>
   );
 }

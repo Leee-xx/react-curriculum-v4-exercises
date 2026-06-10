@@ -1,4 +1,4 @@
-import { Link } from 'react-router';
+import { NavLink } from 'react-router';
 
 export default function Home({ products }) {
   return (
@@ -36,7 +36,11 @@ export default function Home({ products }) {
               }}
             />
 
-            <h3 style={{ margin: '10px 0 4px' }}>{p.name}</h3>
+            <h3 style={{ margin: '10px 0 4px' }}>
+              <NavLink state={{ products }} to={`products/${p.id}`}>
+                {p.name}
+              </NavLink>
+            </h3>
 
             <p style={{ margin: 0 }}>
               <strong>${p.price.toFixed(2)}</strong>

@@ -1,13 +1,24 @@
 import React, { useState } from 'react';
+import { Routes, Route } from 'react-router';
 
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
+
+import { products as productsData } from './data/products.js';
+
+// pages
+import Home from './pages/Home.jsx';
+import Checkout from './pages/Checkout.jsx';
+import ProductDetails from './pages/ProductDetails.jsx';
+import Account from './pages/Account.jsx';
+import NotFound from './pages/NotFound.jsx';
 
 export default function StudentWork() {
   const [user, setUser] = useState({
     isLoggedIn: true,
     firstName: 'Avery',
   });
+  const [products, setProducts] = useState(productsData);
 
   function toggleLogin() {
     setUser((u) => ({ ...u, isLoggedIn: !u.isLoggedIn }));
@@ -39,7 +50,17 @@ export default function StudentWork() {
 
       <Header user={user} />
 
-      <main style={{ padding: 12 }}></main>
+      <main style={{ padding: 12 }}>
+        <Routes>
+          <Route path="/" element={<Home products={products} />}></Route>
+          <Route path="checkout" element={<Checkout />} />
+          <Route path="products/:id" element={<ProductDetails />} />
+          {user.isLoggedIn && (
+            <Route path="account" element={<Account user={user} />} />
+          )}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </main>
 
       <Footer />
     </div>

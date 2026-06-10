@@ -1,7 +1,10 @@
-import { Link, useParams } from 'react-router';
+import { NavLink, useParams, useLocation } from 'react-router';
 
-export default function ProductDetails({ products }) {
-  const id = null;
+export default function ProductDetails() {
+  //export default function ProductDetails({ products }) {
+  const { id } = useParams();
+  const location = useLocation();
+  const { products } = location.state || [];
 
   const product = products.find((p) => p.id === id);
 
@@ -17,7 +20,9 @@ export default function ProductDetails({ products }) {
             alt={product.name}
             style={{ width: '100%', maxWidth: 420, borderRadius: 8 }}
           />
-          <h3 style={{ marginTop: 10 }}>{product.name}</h3>
+          <h3 style={{ marginTop: 10 }}>
+            {product.name} ({id})
+          </h3>
           <p style={{ margin: 0 }}>
             <strong>${product.price.toFixed(2)}</strong>
           </p>
@@ -28,7 +33,9 @@ export default function ProductDetails({ products }) {
           No product found for id: <code>{String(id)}</code>
         </p>
       )}
-      <div style={{ marginTop: 12 }}>Go Home</div>
+      <div style={{ marginTop: 12 }}>
+        <NavLink to="/lessons/lesson-10">Go Home</NavLink>
+      </div>
     </section>
   );
 }
