@@ -1,11 +1,12 @@
-import { Link, useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 export default function NotFound() {
-  const pathname = '';
+  const { pathname } = useLocation();
 
   return (
     <section>
-      <h2>404: Not Found</h2>
+      <h2>404: {pathname} Not Found</h2>
+      <NavLink to="/lessons/lesson-10">Go Home</NavLink>
     </section>
   );
 }
